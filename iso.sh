@@ -8,8 +8,8 @@ mkdir -p isodir/boot/grub
 
 cp sysroot/boot/guidance.kernel isodir/boot/guidance.kernel
 cat > isodir/boot/grub/grub.cfg << EOF
-menuentry "RetrogradeOS" {
+menuentry "VoyagerOS" {
 	multiboot /boot/guidance.kernel
 }
 EOF
-grub-mkrescue -o retrogradeOS.iso isodir
+grub-mkrescue -o VoyagerOS.iso isodir
