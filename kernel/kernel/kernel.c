@@ -489,11 +489,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 		printf("Start Addr: %x | Length: %x | Size: %x | Type: %d\n",
 			   mmmt->addr, mmmt->len, mmmt->size, mmmt->type);
 
-		
-
 		//breakpoint();
-
-		
 
 		if (mmmt->type == MULTIBOOT_MEMORY_AVAILABLE)
 		{
@@ -528,7 +524,9 @@ void main(multiboot_info_t *mbd, u32int magic)
 		abort();
 	}
 
-	//paging();
+	write_debug_code('x', 'x', 'x');
+	paging();
+	write_debug_code('y', 'y', 'y');
 
 	/* prim_wait(1000);
 	currently not working right */
