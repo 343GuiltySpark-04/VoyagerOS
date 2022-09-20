@@ -22,9 +22,9 @@
 #define PROMPT ":> "
 #define PROMPT_LENGTH 3
 //OS Information
-#define OS_VERSION "0.0.2"
-#define OS_VERSION_LENGTH 5
-#define OS_NAME "RetrogradeOS"
+#define OS_VERSION "0.0.1"
+#define OS_VERSION_LENGTH 9
+#define OS_NAME "VoyagerOS"
 #define OS_NAME_LENGTH 12
 #define OS_ARCH_TYPE "x86"
 #define OS_ARCH_TYPE_LENGTH 3
