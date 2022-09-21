@@ -21,7 +21,7 @@
 #define COMMAND_BUFFER_SIZE 100
 #define PROMPT ":> "
 #define PROMPT_LENGTH 3
-//OS Information
+// OS Information
 #define OS_VERSION "0.0.1"
 #define OS_VERSION_LENGTH 9
 #define OS_NAME "VoyagerOS"
@@ -79,7 +79,7 @@ char command_buffer[COMMAND_BUFFER_SIZE]; // TODO: Find a way to purge the buffe
 int command_len = 0;
 const int print_offset = 3;
 
-//unsigned long *page_directory = (unsigned long *)0x9C000;
+// unsigned long *page_directory = (unsigned long *)0x9C000;
 
 //------Global typedefs--------
 
@@ -263,10 +263,10 @@ void handle_keyboard_interrupt()
 			}
 			else if (streq(command_buffer, command_len, "shutdown", 8))
 			{
-				//will consider as a stopgap
-				//abort();
+				// will consider as a stopgap
+				// abort();
 				println("WIP: not working yet.", 21);
-				//hmmm
+				// hmmm
 				outb(0x2000, 0x604);
 			}
 
@@ -341,7 +341,7 @@ void handle_keyboard_interrupt()
 			// BACKSPACE: Move back one unless on prompt
 			if (cursor_col > PROMPT_LENGTH)
 			{
-				print_char_with_asm(' ', cursor_row, --cursor_col); //TODO: add a for loop to remove the char from the buffer.
+				print_char_with_asm(' ', cursor_row, --cursor_col); // TODO: add a for loop to remove the char from the buffer.
 			}
 		}
 		else
@@ -390,7 +390,7 @@ bool interupt_boot_test()
 	}
 }
 
-//old code keeping until certin its useless
+// old code keeping until certin its useless
 /* void paging()
 {
 
@@ -425,7 +425,7 @@ void paging()
 
 	u32int page_directory[1024] __attribute__((aligned(4096)));
 
-	//set each entry to not present
+	// set each entry to not present
 	int i;
 	for (i = 0; i < 1024; i++)
 	{
@@ -442,7 +442,7 @@ void paging()
 	// in this case, we want to map these pages to the very beginning of memory.
 	unsigned int i2;
 
-	//we will fill all 1024 entries in the table, mapping 4 megabytes
+	// we will fill all 1024 entries in the table, mapping 4 megabytes
 	for (i2 = 0; i2 < 1024; i2++)
 	{
 		// As the address is page aligned, it will always leave 12 bits zeroed.
@@ -453,7 +453,7 @@ void paging()
 	// attributes: supervisor level, read/write, present
 	page_directory[0] = ((unsigned int)first_page_table) | 3;
 
-	//loadPageDirectory(page_directory);
+	// loadPageDirectory(page_directory);
 	enablePaging();
 }
 
@@ -489,22 +489,22 @@ void main(multiboot_info_t *mbd, u32int magic)
 		printf("Start Addr: %x | Length: %x | Size: %x | Type: %d\n",
 			   mmmt->addr, mmmt->len, mmmt->size, mmmt->type);
 
-		//breakpoint();
+		// breakpoint();
 
 		if (mmmt->type == MULTIBOOT_MEMORY_AVAILABLE)
 		{
-			/* 
-             * Do something with this memory block!
-             * BE WARNED that some of memory shown as availiable is actually 
-             * actively being used by the kernel! You'll need to take that
-             * into account before writing to memory!
-             */
+			/*
+			 * Do something with this memory block!
+			 * BE WARNED that some of memory shown as availiable is actually
+			 * actively being used by the kernel! You'll need to take that
+			 * into account before writing to memory!
+			 */
 		}
 	}
 
-	//init_serial();
+	// init_serial();
 	write_debug_code('0', '0', '0');
-	//terminal_initialize();
+	// terminal_initialize();
 
 	disable_cursor();
 	init_idt();
@@ -531,9 +531,9 @@ void main(multiboot_info_t *mbd, u32int magic)
 	/* prim_wait(1000);
 	currently not working right */
 
-	//clear_screen();
-	//print_message();
-	//print_prompt();
+	// clear_screen();
+	// print_message();
+	// print_prompt();
 	write_debug_code('0', '0', '1');
 	// Finish main execution, but don't halt the CPU. Same as `jmp $` in assembly
 	while (1)
