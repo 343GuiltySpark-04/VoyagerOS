@@ -453,7 +453,7 @@ void paging()
 	// attributes: supervisor level, read/write, present
 	page_directory[0] = ((unsigned int)first_page_table) | 3;
 
-	loadPageDirectory(page_directory);
+	//loadPageDirectory(page_directory);
 	enablePaging();
 }
 
@@ -526,7 +526,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 	write_debug_code('x', 'x', 'x');
 	paging();
-	write_debug_code('y', 'y', 'y');
+	write_debug_code('0', '0', '7');
 
 	/* prim_wait(1000);
 	currently not working right */
