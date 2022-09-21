@@ -40,6 +40,7 @@
 #include <common.h>
 #include <kernel/serial_port_driver.h>
 #include <kernel/multiboot.h>
+#include <kernel/cpuid.h>
 //#include <kernel/outb.h>
 
 // ----- External functions -----
@@ -453,7 +454,7 @@ void paging()
 	// attributes: supervisor level, read/write, present
 	page_directory[0] = ((unsigned int)first_page_table) | 3;
 
-	// loadPageDirectory(page_directory);
+	loadPageDirectory(page_directory);
 	enablePaging();
 }
 
@@ -524,8 +525,8 @@ void main(multiboot_info_t *mbd, u32int magic)
 		abort();
 	}
 
-	write_debug_code('x', 'x', 'x');
-	paging();
+	//write_debug_code('x', 'x', 'x');
+	//paging();
 	write_debug_code('0', '0', '7');
 
 	/* prim_wait(1000);

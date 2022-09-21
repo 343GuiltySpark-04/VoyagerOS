@@ -5,14 +5,14 @@ with some modifactions fo x86 */
 
 PageTableOffset VirtualAddressToOffsets(void *virtualAddress)
 {
-    uint64_t address = (uint64_t)virtualAddress;
+    uint32_t address = (uint32_t)virtualAddress;
 
     PageTableOffset offset = {
 
-        .p4Offset = (address & ((uint64_t)0x1FF << 39)) >> 39,
-        .pdpOffset = (address & ((uint64_t)0x1FF << 30)) >> 30,
-        .pdOffset = (address & ((uint64_t)0x1FF << 21)) >> 21,
-        .ptOffset = (address & ((uint64_t)0x1FF << 12)) >> 12,
+        .p4Offset = (address & ((uint32_t)0x1FF << 39)) >> 39,
+        .pdpOffset = (address & ((uint32_t)0x1FF << 30)) >> 30,
+        .pdOffset = (address & ((uint32_t)0x1FF << 21)) >> 21,
+        .ptOffset = (address & ((uint32_t)0x1FF << 12)) >> 12,
     };
 
     return offset;
@@ -20,7 +20,7 @@ PageTableOffset VirtualAddressToOffsets(void *virtualAddress)
 
 void *OffsetToVirtualAddress(PageTableOffset offset)
 {
-    uint64_t address = 0;
+    uint32_t address = 0;
 
     address |= offset.p4Offset << 39;
     address |= offset.pdpOffset << 30;
