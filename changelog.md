@@ -1,3 +1,5 @@
 # Version: 0.0.1
 - inital release
-- Paging (assuming its not tricking me)
+
+# Version 0.0.1a
+- Added a assembly stub to check for and enable A20 if needed.
