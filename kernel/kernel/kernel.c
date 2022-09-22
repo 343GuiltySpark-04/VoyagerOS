@@ -55,6 +55,7 @@ extern void halt();
 extern void reboot();
 extern void loadPageDirectory(unsigned int *);
 extern void enablePaging();
+extern void is_A20_on();
 extern u32int endkernel;
 
 // ----- Structs -----
@@ -225,7 +226,7 @@ void gp_init()
 void catch_gp()
 {
 
-	print("KERNEL PANIC!: GENERAL PROTECTION EXETPION (TRIPLE FAULT) ABORT! ABORT!", 71);
+	print("KERNEL PANIC!: GENERAL PROTECTION EXCEPTION (TRIPLE FAULT) ABORT! ABORT!", 72);
 	emg_halt = true;
 }
 
@@ -540,6 +541,8 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 		abort();
 	}
+
+	is_A20_on();
 
 	//write_debug_code('x', 'x', 'x');
 	//paging();
