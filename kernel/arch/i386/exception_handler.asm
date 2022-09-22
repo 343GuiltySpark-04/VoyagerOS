@@ -1,6 +1,11 @@
+
+
+extern gpfExcHandler
+
+
 exc_0d_handler:
     push gs
-    mov gs,ZEROBASED_DATA_SELECTOR
+    mov gs,eax
     mov word [gs:0xb8000],'D '
     ;; D in the top-left corner means we're handling
     ;;  a GPF exception right ATM.
@@ -9,7 +14,7 @@ exc_0d_handler:
     pushad
     push ds
     push es
-    mov ax,KERNEL_DATA_SELECTOR
+    mov ax,[0]
     mov ds,ax
     mov es,ax
  

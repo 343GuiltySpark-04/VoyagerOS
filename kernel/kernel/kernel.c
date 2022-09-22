@@ -79,6 +79,7 @@ int cursor_col = 0;
 char command_buffer[COMMAND_BUFFER_SIZE]; // TODO: Find a way to purge the buffer when the command is wrong.
 int command_len = 0;
 const int print_offset = 3;
+int nestexc = 0;
 
 // unsigned long *page_directory = (unsigned long *)0x9C000;
 
@@ -457,6 +458,20 @@ void paging()
 
 	loadPageDirectory(page_directory);
 	enablePaging();
+}
+
+
+ 
+// called by the exception handler stub
+void gpfExcHandler(void) {
+/*    if (nestexc > 3) panic();
+   nestexc++;
+ 
+   if (!fix_the_error()) {
+     write_an_error_message();
+   }
+   nestexc--; */
+   return;
 }
 
 // ----- Entry point -----
