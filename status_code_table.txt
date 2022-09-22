@@ -8,3 +8,4 @@ CODE #  |   Descripton
 005     |   Invalid magic number!
 006     |   Invalid memory map given by GRUB
 007     |   Paging Setup nominal
+008     |   A20 enabled

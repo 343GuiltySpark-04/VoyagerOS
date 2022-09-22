@@ -20,9 +20,18 @@ jne A20_valid        ;if not equivalent , A20 line is set.
 jmp enable_A20              ;if equivalent , the A20 line is cleared.
  
 A20_valid:
-mov eax,0x1
 mov dx,0x3f8
+mov eax,0x2A
 out dx,eax
+mov eax,0x30
+out dx,eax
+mov eax,0x30
+out dx,eax
+mov eax,0x38
+out dx,eax
+mov eax,0x2A
+out dx,eax
+
 
 enable_A20:
         cli
