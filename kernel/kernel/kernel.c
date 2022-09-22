@@ -425,6 +425,7 @@ void paging()
 {
 
 	u32int page_directory[1024] __attribute__((aligned(4096)));
+	asm volatile ("1: jmp 1b");
 
 	// set each entry to not present
 	int i;
