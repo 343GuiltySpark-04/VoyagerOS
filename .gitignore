@@ -64,3 +64,4 @@ isodir/*
 *.tar*
 release.sh
 release/*
+*.ini
