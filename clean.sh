@@ -8,7 +8,7 @@ done
 
 rm -rf sysroot
 rm -rf isodir
-rm -rf retrogradeOS.iso
+rm -rf VoyagerOS.iso
 rm -f  guidance.sym
 rm -rf release
 rm -rf *.tar*
