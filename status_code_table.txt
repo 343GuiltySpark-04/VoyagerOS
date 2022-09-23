@@ -9,3 +9,4 @@ CODE #  |   Descripton
 006     |   Invalid memory map given by GRUB
 007     |   Paging Setup nominal
 008     |   A20 enabled
+009     |   IDT Loaded

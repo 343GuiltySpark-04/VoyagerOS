@@ -56,6 +56,14 @@ extern void reboot();
 extern void loadPageDirectory(unsigned int *);
 extern void enablePaging();
 extern void is_A20_on();
+extern void e9_port_test();
+extern void nominal_boot();
+extern void interrupt_check_fail();
+extern void interrupts_enabled();
+extern void invalid_maigic_number();
+extern void invalid_mem_map();
+extern void paging_nominal();
+extern void IDT_loaded();
 extern u32int endkernel;
 
 // ----- Structs -----

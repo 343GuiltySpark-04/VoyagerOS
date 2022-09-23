@@ -6,7 +6,8 @@
 ; Written by Elad Ashkcenazi 
 ; Modifed to enable if needed by Tristan Adams
 global is_A20_on
- 
+extern A20_enabled
+
 is_A20_on:   
  
 pushad
@@ -30,7 +31,7 @@ mov eax,0x38
 out dx,eax
 mov eax,0x2A
 out dx,eax
-
+call A20_enabled
 
 enable_A20:
         cli
