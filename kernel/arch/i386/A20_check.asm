@@ -25,7 +25,6 @@ mov eax,0x2A
 out dx,eax
 mov eax,0x30
 out dx,eax
-mov eax,0x30
 out dx,eax
 mov eax,0x38
 out dx,eax

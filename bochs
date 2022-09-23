@@ -2,15 +2,15 @@
 plugin_ctrl: unmapped=true, biosdev=true, speaker=true, extfpuirq=true, parallel=true, serial=true, gameport=true, iodebug=true
 config_interface: textconfig
 display_library: x, options="gui_debug"
-memory: host=32, guest=128
-romimage: file="/usr/share/bochs/BIOS-bochs-legacy", address=0x00000000, options=none
+memory: host=32, guest=32
+romimage: file="/usr/share/bochs/BIOS-bochs-latest", address=0x00000000, options=none
 vgaromimage: file="/usr/share/bochs/VGABIOS-lgpl-latest"
-boot: cdrom
-floppy_bootsig_check: disabled=1
+boot: floppy
+floppy_bootsig_check: disabled=0
 # no floppya
 # no floppyb
 ata0: enabled=true, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-ata0-master: type=cdrom, path="VoyagerOS.iso", status=inserted, model="Generic 1234", biosdetect=auto
+ata0-master: type=none
 ata0-slave: type=none
 ata1: enabled=true, ioaddr1=0x170, ioaddr2=0x370, irq=15
 ata1-master: type=none
@@ -31,25 +31,25 @@ cpu: count=1:1:1, ips=4000000, quantum=16, model=bx_generic, reset_on_triple_fau
 cpuid: level=6, stepping=3, model=3, family=6, vendor_string="GenuineIntel", brand_string="              Intel(R) Pentium(R) 4 CPU        "
 cpuid: mmx=true, apic=xapic, simd=sse2, sse4a=false, misaligned_sse=false, sep=true
 cpuid: movbe=false, adx=false, aes=false, sha=false, xsave=false, xsaveopt=false, avx_f16c=false
-cpuid: avx_fma=false, bmi=0, xop=false, fma4=false, tbm=false, x86_64=false, 1g_pages=false
+cpuid: avx_fma=false, bmi=0, xop=false, fma4=false, tbm=false, x86_64=true, 1g_pages=false
 cpuid: pcid=false, fsgsbase=false, smep=false, smap=false, mwait=true, vmx=1, svm=false
 print_timestamps: enabled=0
-debugger_log: bochs_debugger.log
-magic_break: enabled=0
+debugger_log: bochs_debugger_log.log
+magic_break: enabled=1
 port_e9_hack: enabled=0
 private_colormap: enabled=0
 clock: sync=realtime, time0=local, rtc_sync=0
 # no cmosimage
-log: bochs.log
+log: bochs_log.log
 logprefix: %t%e%d
-debug: action=report
-info: action=report
-error: action=report
+debug: action=ignore
+info: action=ignore
+error: action=warn
 panic: action=ask
 keyboard: type=mf, serial_delay=250, paste_delay=100000, user_shortcut=none
 mouse: type=ps2, enabled=false, toggle=ctrl+mbutton
 sound: waveoutdrv=dummy, waveout=none, waveindrv=dummy, wavein=none, midioutdrv=dummy, midiout=none
-speaker: enabled=false
+speaker: enabled=true, mode=sound
 parport1: enabled=true, file=none
 parport2: enabled=false
 com1: enabled=true, mode=null
