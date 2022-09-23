@@ -3,7 +3,7 @@ CODE #  |   Descripton
 000     |   Serial Port COM1 test
 001     |   Kernel bootup nominal
 002     |   Failure of interupt system
-003     |   Serial Port COM1 test from console
+003     |   Serial Port COM1 test from console (DEPRECIATED)
 004     |   Interupt's enabled
 005     |   Invalid magic number!
 006     |   Invalid memory map given by GRUB
