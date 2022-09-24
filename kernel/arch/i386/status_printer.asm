@@ -1,5 +1,8 @@
 [bits 32]
 
+
+section .text
+
 global e9_port_test
 global nominal_boot
 global interrupt_check_fail

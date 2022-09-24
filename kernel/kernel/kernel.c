@@ -332,7 +332,7 @@ void handle_keyboard_interrupt()
 				print("Writing port check code to COM1.", 32);
 				cursor_row++;
 
-				write_debug_code('0', '0', '3');
+				//write_debug_code('0', '0', '3');
 			}
 
 			else if (command_len < 1)
@@ -494,7 +494,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	/* Make sure the magic number matches for memory mapping*/
 	if (0x2BADB002 != MULTIBOOT_BOOTLOADER_MAGIC)
 	{
-		write_debug_code('0', '0', '5');
+		//write_debug_code('0', '0', '5');
 		invalid_maigic_number();
 		abort();
 	}
@@ -502,7 +502,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	/* Check bit 6 to see if we have a valid memory map */
 	if (!(mbd->flags >> 6 & 0x1))
 	{
-		write_debug_code('0', '0', '6');
+		//write_debug_code('0', '0', '6');
 		invalid_mem_map();
 		abort();
 	}
@@ -532,7 +532,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	}
 
 	// init_serial();
-	write_debug_code('0', '0', '0');
+	//write_debug_code('0', '0', '0');
 	e9_port_test();
 	// terminal_initialize();
 
@@ -541,7 +541,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	kb_init();
 	gp_init();
 	enable_interrupts();
-	write_debug_code('0', '0', '4');
+	//write_debug_code('0', '0', '4');
 	interrupts_enabled();
 	bool interupt_test = interupt_boot_test();
 
@@ -550,7 +550,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 		println("KERNEL PANIC!: INTERRUPT SYSTEM MALFUNCTION ABORTING BOOT!", 58);
 
-		write_debug_code('0', '0', '2');
+		//write_debug_code('0', '0', '2');
 		interrupt_check_fail();
 
 		abort();
@@ -568,7 +568,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	// clear_screen();
 	// print_message();
 	// print_prompt();
-	write_debug_code('0', '0', '1');
+	//write_debug_code('0', '0', '1');
 	nominal_boot();
 	// Finish main execution, but don't halt the CPU. Same as `jmp $` in assembly
 	while (1)
