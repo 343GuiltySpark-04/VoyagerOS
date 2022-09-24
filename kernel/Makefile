@@ -69,8 +69,9 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 	nasm -felf32 -g $(ARCHDIR)/exception_handler.asm
 	nasm -felf32 -g $(ARCHDIR)/A20_check.asm
 	nasm -felf32 -g $(ARCHDIR)/status_printer.asm
-	nasm -felf32 -g $(ARCHDIR)/load_paging_NASM.asm
-	nasm -felf32 -g $(ARCHDIR)/enable_paging_NASM.asm
+	nasm -felf32 -g $(ARCHDIR)/load_paging.asm
+	nasm -felf32 -g $(ARCHDIR)/enable_paging.asm
+	nasm -felf32 -g $(ARCHDIR)/protected_mode.asm
 
 clean:
 	rm -f guidance.kernel

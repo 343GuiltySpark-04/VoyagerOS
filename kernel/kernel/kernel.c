@@ -536,10 +536,13 @@ void main(multiboot_info_t *mbd, u32int magic)
 	//e9_port_test();
 	// terminal_initialize();
 
+	is_A20_on();
 	disable_cursor();
 	init_idt();
 	kb_init();
 	gp_init();
+	load_gdt();
+	paging();
 	enable_interrupts();
 	//write_debug_code('0', '0', '4');
 	//interrupts_enabled();
@@ -556,10 +559,10 @@ void main(multiboot_info_t *mbd, u32int magic)
 		abort();
 	}
 
-	is_A20_on();
+	
 
 	//write_debug_code('x', 'x', 'x');
-	paging();
+
 	//write_debug_code('0', '0', '7');
 	//paging_nominal();
 	/* prim_wait(1000);
