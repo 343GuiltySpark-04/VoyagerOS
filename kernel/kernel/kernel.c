@@ -214,7 +214,7 @@ void init_idt()
 	idt_ptr.base = (unsigned int)&IDT;
 	// Now load this IDT
 	load_idt(&idt_ptr);
-	//IDT_loaded();
+	// IDT_loaded();
 }
 
 void kb_init()
@@ -330,7 +330,7 @@ void handle_keyboard_interrupt()
 				print("Writing port check code to COM1.", 32);
 				cursor_row++;
 
-				//write_debug_code('0', '0', '3');
+				// write_debug_code('0', '0', '3');
 			}
 
 			else if (command_len < 1)
@@ -434,7 +434,7 @@ void paging()
 {
 
 	u32int page_directory[1024] __attribute__((aligned(4096)));
-	asm volatile ("1: jmp 1b");
+	asm volatile("1: jmp 1b");
 
 	// set each entry to not present
 	int i;
@@ -468,40 +468,39 @@ void paging()
 	enablePaging();
 }
 
-
- 
 // called by the exception handler stub
-void gpfExcHandler(void) {
-/*    if (nestexc > 3) panic();
-   nestexc++;
- 
-   if (!fix_the_error()) {
-     write_an_error_message();
-   }
-   nestexc--; */
-   return;
+void gpfExcHandler(void)
+{
+	/*    if (nestexc > 3) panic();
+	   nestexc++;
+
+	   if (!fix_the_error()) {
+		 write_an_error_message();
+	   }
+	   nestexc--; */
+	return;
 }
 
 // ----- Entry point -----
 void main(multiboot_info_t *mbd, u32int magic)
 {
 
-	//init_serial();
+	// init_serial();
 	terminal_initialize();
 
 	/* Make sure the magic number matches for memory mapping*/
 	if (0x2BADB002 != MULTIBOOT_BOOTLOADER_MAGIC)
 	{
-		//write_debug_code('0', '0', '5');
-		//invalid_maigic_number();
+		// write_debug_code('0', '0', '5');
+		// invalid_maigic_number();
 		abort();
 	}
 
 	/* Check bit 6 to see if we have a valid memory map */
 	if (!(mbd->flags >> 6 & 0x1))
 	{
-		//write_debug_code('0', '0', '6');
-		//invalid_mem_map();
+		// write_debug_code('0', '0', '6');
+		// invalid_mem_map();
 		abort();
 	}
 
@@ -530,19 +529,19 @@ void main(multiboot_info_t *mbd, u32int magic)
 	}
 
 	// init_serial();
-	//write_debug_code('0', '0', '0');
-	//e9_port_test();
+	// write_debug_code('0', '0', '0');
+	// e9_port_test();
 	// terminal_initialize();
 
 	is_A20_on();
 	disable_cursor();
 	init_idt();
 	kb_init();
-	//gp_init();
+	// gp_init();
 	paging();
 	enable_interrupts();
-	//write_debug_code('0', '0', '4');
-	//interrupts_enabled();
+	// write_debug_code('0', '0', '4');
+	// interrupts_enabled();
 	bool interupt_test = interupt_boot_test();
 
 	if (interupt_test == false)
@@ -550,27 +549,25 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 		println("KERNEL PANIC!: INTERRUPT SYSTEM MALFUNCTION ABORTING BOOT!", 58);
 
-		//write_debug_code('0', '0', '2');
-		//interrupt_check_fail();
+		// write_debug_code('0', '0', '2');
+		// interrupt_check_fail();
 
 		abort();
 	}
 
-	
+	// write_debug_code('x', 'x', 'x');
 
-	//write_debug_code('x', 'x', 'x');
-
-	//write_debug_code('0', '0', '7');
-	//paging_nominal();
+	// write_debug_code('0', '0', '7');
+	// paging_nominal();
 	/* prim_wait(1000);
 	currently not working right */
 
-	 clear_screen();
-	 print_message();
-	 print_prompt();
-	//write_debug_code('0', '0', '1');
-	//nominal_boot();
-	// Finish main execution, but don't halt the CPU. Same as `jmp $` in assembly
+	clear_screen();
+	print_message();
+	print_prompt();
+	// write_debug_code('0', '0', '1');
+	// nominal_boot();
+	//  Finish main execution, but don't halt the CPU. Same as `jmp $` in assembly
 	while (1)
 	{
 
