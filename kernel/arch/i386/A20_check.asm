@@ -1,5 +1,8 @@
 [bits 32]
  
+
+section .text
+
 ; Check A20 line
 ; Returns to caller if A20 gate is cleared.
 ; Continues to A20_on if A20 line is set.
@@ -21,17 +24,17 @@ jne A20_valid        ;if not equivalent , A20 line is set.
 jmp enable_A20              ;if equivalent , the A20 line is cleared.
  
 A20_valid:
-mov dx,0x3f8
-mov eax,0x2A
-out dx,eax
-mov eax,0x30
-out dx,eax
-out dx,eax
-mov eax,0x38
-out dx,eax
-mov eax,0x2A
-out dx,eax
-call A20_enabled
+;mov dx,0x3f8
+;mov eax,0x2A
+;out dx,eax
+;mov eax,0x30
+;out dx,eax
+;out dx,eax
+;mov eax,0x38
+;out dx,eax
+;mov eax,0x2A
+;out dx,eax
+;call A20_enabled
 
 enable_A20:
         cli

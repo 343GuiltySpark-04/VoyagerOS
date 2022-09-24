@@ -216,7 +216,7 @@ void init_idt()
 	idt_ptr.base = (unsigned int)&IDT;
 	// Now load this IDT
 	load_idt(&idt_ptr);
-	IDT_loaded();
+	//IDT_loaded();
 }
 
 void kb_init()
@@ -488,14 +488,14 @@ void gpfExcHandler(void) {
 void main(multiboot_info_t *mbd, u32int magic)
 {
 
-	init_serial();
+	//init_serial();
 	terminal_initialize();
 
 	/* Make sure the magic number matches for memory mapping*/
 	if (0x2BADB002 != MULTIBOOT_BOOTLOADER_MAGIC)
 	{
 		//write_debug_code('0', '0', '5');
-		invalid_maigic_number();
+		//invalid_maigic_number();
 		abort();
 	}
 
@@ -503,7 +503,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	if (!(mbd->flags >> 6 & 0x1))
 	{
 		//write_debug_code('0', '0', '6');
-		invalid_mem_map();
+		//invalid_mem_map();
 		abort();
 	}
 
@@ -533,7 +533,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 	// init_serial();
 	//write_debug_code('0', '0', '0');
-	e9_port_test();
+	//e9_port_test();
 	// terminal_initialize();
 
 	disable_cursor();
@@ -542,7 +542,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	gp_init();
 	enable_interrupts();
 	//write_debug_code('0', '0', '4');
-	interrupts_enabled();
+	//interrupts_enabled();
 	bool interupt_test = interupt_boot_test();
 
 	if (interupt_test == false)
@@ -551,7 +551,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 		println("KERNEL PANIC!: INTERRUPT SYSTEM MALFUNCTION ABORTING BOOT!", 58);
 
 		//write_debug_code('0', '0', '2');
-		interrupt_check_fail();
+		//interrupt_check_fail();
 
 		abort();
 	}
@@ -559,7 +559,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	is_A20_on();
 
 	//write_debug_code('x', 'x', 'x');
-	//paging();
+	paging();
 	//write_debug_code('0', '0', '7');
 	//paging_nominal();
 	/* prim_wait(1000);
@@ -569,7 +569,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	// print_message();
 	// print_prompt();
 	//write_debug_code('0', '0', '1');
-	nominal_boot();
+	//nominal_boot();
 	// Finish main execution, but don't halt the CPU. Same as `jmp $` in assembly
 	while (1)
 	{
