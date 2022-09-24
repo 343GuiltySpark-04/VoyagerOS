@@ -9,7 +9,7 @@ section .text
 ; Include the GDT from previous tutorials
 ; Set this as our GDT with LGDT
 ; insetad of relying on what the bootloader sets up for us
-%include "include/kernel/gdt.asm"
+;%include "include/kernel/gdt.asm"
 
 ; Make global anything that is used in main.c
 global start
@@ -28,9 +28,12 @@ global asm_loop
 extern main			; Defined in kernel.c
 extern handle_keyboard_interrupt
 extern catch_gp
+extern gdt_desc
+extern CODE_SEG
+extern DATA_SEG
 
 load_gdt:
-	lgdt [gdt_descriptor] ; from gdt.asm
+	lgdt [gdt_desc] ; from gdt.asm
 	ret
 
 load_idt:
@@ -97,7 +100,7 @@ print_char_with_asm:
 start:
 	; THANK YOU MICHAEL PETCH
 	; https://stackoverflow.com/questions/62885174/multiboot-keyboard-driver-triple-faults-with-grub-works-with-qemu-why
-	lgdt [gdt_descriptor]
+	lgdt [gdt_desc]
 	jmp CODE_SEG:.setcs       ; Set CS to our 32-bit flat code selector
 	.setcs:
 	mov ax, DATA_SEG          ; Setup the segment registers with our flat data selector
