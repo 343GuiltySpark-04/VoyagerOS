@@ -6,3 +6,6 @@
 
 # Version 0.0.1c
 - Added a assembly status code printer for use with Bochs
+
+# Version 0.0.2
+- Paging!

@@ -22,12 +22,12 @@
 #define PROMPT ":> "
 #define PROMPT_LENGTH 3
 // OS Information
-#define OS_VERSION "0.0.1c"
-#define OS_VERSION_LENGTH 10
+#define OS_VERSION "0.0.2"
+#define OS_VERSION_LENGTH 9
 #define OS_NAME "VoyagerOS"
 #define OS_NAME_LENGTH 12
-#define OS_ARCH_TYPE "x86"
-#define OS_ARCH_TYPE_LENGTH 3
+#define OS_ARCH_TYPE "x86 (i386)"
+#define OS_ARCH_TYPE_LENGTH 10
 
 // ----- Includes -----
 #include <kernel/keyboard_map.h>
@@ -381,7 +381,7 @@ void print_prompt()
 void print_message()
 {
 	// Fill the screen with 'x'
-	print("Welcome To RetrogradeOS", 23);
+	print("Welcome To VoyagerOS", 23);
 	cursor_row = 4;
 }
 
@@ -565,9 +565,9 @@ void main(multiboot_info_t *mbd, u32int magic)
 	/* prim_wait(1000);
 	currently not working right */
 
-	// clear_screen();
-	// print_message();
-	// print_prompt();
+	 clear_screen();
+	 print_message();
+	 print_prompt();
 	//write_debug_code('0', '0', '1');
 	//nominal_boot();
 	// Finish main execution, but don't halt the CPU. Same as `jmp $` in assembly
