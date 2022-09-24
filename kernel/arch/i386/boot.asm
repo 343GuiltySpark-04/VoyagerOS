@@ -31,10 +31,11 @@ extern catch_gp
 extern gdt_desc
 extern CODE_SEG
 extern DATA_SEG
+extern pmodeinit
 
-load_gdt:
-	lgdt [gdt_desc] ; from gdt.asm
-	ret
+; Define Constants
+STACKSIZE equ 0x4000
+
 
 load_idt:
 	mov edx, [esp + 4]
@@ -58,12 +59,7 @@ gp_handler:
 	cld
 	call catch_gp
 
-halt:
-	hlt ; So it can be used without inline asm.
 
-
-asm_loop:
-	jmp $ ; incase its ever needed.
 
 
 
@@ -100,24 +96,20 @@ print_char_with_asm:
 start:
 	; THANK YOU MICHAEL PETCH
 	; https://stackoverflow.com/questions/62885174/multiboot-keyboard-driver-triple-faults-with-grub-works-with-qemu-why
-	lgdt [gdt_desc]
-	jmp CODE_SEG:.setcs       ; Set CS to our 32-bit flat code selector
-	.setcs:
-	mov ax, DATA_SEG          ; Setup the segment registers with our flat data selector
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
-	mov ss, ax
 	mov esp, stack_space        ; set stack pointer
 	cli				; Disable interrupts
 	mov esp, stack_space
 	push eax
 	push ebx
+	call pmodeinit
 	call main
 	hlt
 
+
+
+
 section .bss
-resb 8192			; 8KB for stack
+align 32
+resb STACKSIZE			; 8KB for stack
 stack_space:
 

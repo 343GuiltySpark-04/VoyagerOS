@@ -1,11 +1,11 @@
 bits 32
 
-;section .text
+section .data
 
 global gdt_end
 global gdt_desc
-global CODE_SEG
-global DATA_SEG
+extern main
+
 
 gdt_start:
 
@@ -30,9 +30,31 @@ gdt_data:
 gdt_end:
 
 gdt_desc:
-    db gdt_end - gdt_start - 1
+    db $ - gdt_start - 1
     dw gdt_start
 
 
-CODE_SEG equ gdt_code - gdt_start
-DATA_SEG equ gdt_data - gdt_start
+section .text
+    global pmodeinit
+
+pmodeinit:
+    cli
+
+    lgdt [gdt_desc]
+    mov eax,cr0
+    or eax,1
+    mov cr0,eax
+    jmp dword 0x8:start32
+
+start32:
+    mov eax,0x10
+    mov ds,ax
+    mov es,ax
+    mov fs,ax
+    mov gs,ax
+    mov ss,ax
+
+    sti
+    mov esp,0x8000
+
+    call main
