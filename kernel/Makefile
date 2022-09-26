@@ -64,14 +64,15 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 
 .S.o:
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
-	nasm -felf32 -g $(ARCHDIR)/boot.asm
+	nasm -felf32 -g -w+all $(ARCHDIR)/boot.asm
 	nasm -felf32 -g $(ARCHDIR)/paging.asm
 	nasm -felf32 -g $(ARCHDIR)/exception_handler.asm
 	nasm -felf32 -g $(ARCHDIR)/A20_check.asm
 	nasm -felf32 -g $(ARCHDIR)/status_printer.asm
-	nasm -felf32 -g $(ARCHDIR)/load_paging.asm
-	nasm -felf32 -g $(ARCHDIR)/enable_paging.asm
-	nasm -felf32 -g $(ARCHDIR)/protected_mode.asm
+	nasm -felf32 -g -w+all $(ARCHDIR)/load_paging.asm
+	nasm -felf32 -g -w+all $(ARCHDIR)/enable_paging.asm
+	nasm -felf32 -g -w+all $(ARCHDIR)/protected_mode.asm
+	nasm -felf32 -g -w+all $(ARCHDIR)/isr_wrapper.asm
 
 clean:
 	rm -f guidance.kernel

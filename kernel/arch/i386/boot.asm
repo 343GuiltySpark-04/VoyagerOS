@@ -1,15 +1,15 @@
 bits 32
-section .multiboot
-	dd 0x1BADB002	; Magic number
-	dd 0x0			; Flags
-	dd - (0x1BADB002 + 0x0)	; Checksum
+;section .multiboot
 
 section .text
 
 ; Include the GDT from previous tutorials
 ; Set this as our GDT with LGDT
 ; insetad of relying on what the bootloader sets up for us
-;%include "include/kernel/gdt.asm"
+dd 0x1BADB002	; Magic number
+dd 0x0			; Flags
+dd - (0x1BADB002 + 0x0)	; Checksum
+
 
 ; Make global anything that is used in main.c
 global start
@@ -32,6 +32,8 @@ extern gdt_desc
 extern CODE_SEG
 extern DATA_SEG
 extern pmodeinit
+extern is_A20_on
+extern init_idt
 
 ; Define Constants
 STACKSIZE equ 0x4000
@@ -96,12 +98,14 @@ print_char_with_asm:
 start:
 	; THANK YOU MICHAEL PETCH
 	; https://stackoverflow.com/questions/62885174/multiboot-keyboard-driver-triple-faults-with-grub-works-with-qemu-why
-	mov esp, stack_space        ; set stack pointer
+	mov esp, stack_space+STACKSIZE       ; set stack pointer
 	cli				; Disable interrupts
 	mov esp, stack_space
 	push eax
 	push ebx
+	call is_A20_on
 	call pmodeinit
+	call load_idt
 	call main
 	hlt
 

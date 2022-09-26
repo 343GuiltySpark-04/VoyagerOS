@@ -217,6 +217,11 @@ void init_idt()
 	// IDT_loaded();
 }
 
+
+void interrupt_handler(void){
+	ioport_out(PIC1_COMMAND_PORT, 0x20);
+}
+
 void kb_init()
 {
 	// 0xFD = 1111 1101 in binary. enables only IRQ1
@@ -538,7 +543,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	init_idt();
 	kb_init();
 	// gp_init();
-	paging();
+	//paging();
 	enable_interrupts();
 	// write_debug_code('0', '0', '4');
 	// interrupts_enabled();
