@@ -11,6 +11,8 @@ typedef unsigned char u8int;
 typedef char s8int;
 typedef unsigned long u64int;
 typedef long s64int;
+typedef int sintptr;
+typedef unsigned int unintptr;
 
 void outb(u16int port, u8int value);
 u8int inb(u16int port);
