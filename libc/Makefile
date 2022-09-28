@@ -35,6 +35,7 @@ stdio/puts.o \
 stdlib/abort.o \
 stdlib/common.o \
 stdlib/kheap.o\
+stdlib/kmem.o \
 string/memcmp.o \
 string/memcpy.o \
 string/memmove.o \

@@ -1,5 +1,6 @@
 /* Leonard Kevin McGuire Jr (kmcg3413@gmail.com) (www.kmcg3413.net) */
 #include <common.h>
+#include <stdlib.h>
 typedef struct _KHEAPBLOCKBM
 {
 	struct _KHEAPBLOCKBM *next;
