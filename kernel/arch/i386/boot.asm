@@ -96,8 +96,8 @@ start:
 	push ebx
 	call is_A20_on
 	call init_idt
-	call pmodeinit
-	;call main
+	;call pmodeinit
+	call main
 	hlt
 
 
@@ -107,4 +107,3 @@ section .bss
 align 32
 resb STACKSIZE			; 8KB for stack
 stack_space:
-

@@ -4,6 +4,8 @@ section .data align=4
 
 global gdt_end
 global gdt_desc
+global CODE_SEG
+global DATA_SEG
 extern main
 
 
@@ -36,6 +38,9 @@ gdt_desc:
     db gdt_end - gdt_start - 1
     dd gdt_start
 
+
+CODE_SEG equ gdt_code - gdt_start
+DATA_SEG equ gdt_data - gdt_start
 
 section .text
     global pmodeinit

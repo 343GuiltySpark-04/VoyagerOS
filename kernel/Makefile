@@ -71,9 +71,9 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 	nasm -felf32 -g $(ARCHDIR)/status_printer.asm
 	nasm -felf32 -g -w+all $(ARCHDIR)/load_paging.asm
 	nasm -felf32 -g -w+all $(ARCHDIR)/enable_paging.asm
-	nasm -felf32 -g -w+all $(ARCHDIR)/protected_mode.asm
 	nasm -felf32 -g -w+all $(ARCHDIR)/isr_wrapper.asm
 	nasm -felf32 -g -w+all $(ARCHDIR)/isr.asm
+	nasm -felf32 -g -w+all $(ARCHDIR)/protected_mode.asm
 	nasm -felf32 -g -w+all $(ARCHDIR)/memory_mapper.asm
 
 clean:

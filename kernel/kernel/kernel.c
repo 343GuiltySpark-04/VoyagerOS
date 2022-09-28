@@ -574,7 +574,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	disable_cursor();
 	init_idt();
 	kb_init();
-	// gp_init();
+	gp_init();
 	// paging();
 	enable_interrupts();
 	// write_debug_code('0', '0', '4');
