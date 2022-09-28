@@ -14,10 +14,9 @@ typedef struct _KHEAPBLOCKBM
     u8int *bm;
 } KHEAPBLOCKBM;
 
-
 typedef struct _KHEAPBM
 {
-	KHEAPBLOCKBM *fblock;
+    KHEAPBLOCKBM *fblock;
 } KHEAPBM;
 
 void k_heapBMInit(KHEAPBM *heap);
@@ -28,8 +27,5 @@ void k_heapBMFree(KHEAPBM *heap, void *ptr);
 uintptr k_heapBMGetBMSize(uintptr size, u32int bsize);
 void *k_heapBMAllocBound(KHEAPBM *heap, u32int size, u32int mask);
 void k_heapBMSet(KHEAPBM *heap, uintptr ptr, uintptr size, u8int rval);
-
-
-
 
 #endif
