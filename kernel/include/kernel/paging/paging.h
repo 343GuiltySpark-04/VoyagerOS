@@ -1,6 +1,6 @@
 
 
-/* source code from https://github.com/LittleCodingFox/ToastOS/blob/master/src/low-level/paging/Paging.hpp 
+/* source code from https://github.com/LittleCodingFox/ToastOS/blob/master/src/low-level/paging/Paging.hpp
 with some modifactions fo x86 */
 
 #pragma once
@@ -55,7 +55,7 @@ enum PagingFlag
     PAGING_FLAG_NO_EXECUTE = (1ull << 63),
 };
 
-typedef struct 
+typedef struct
 {
     uint32_t p4Offset;
     uint32_t pdpOffset;

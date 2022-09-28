@@ -537,7 +537,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	if (!(mbd->flags >> 6 & 0x1))
 	{
 		// write_debug_code('0', '0', '6');
-		 invalid_mem_map();
+		invalid_mem_map();
 		abort();
 	}
 
