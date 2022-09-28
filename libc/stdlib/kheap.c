@@ -6,7 +6,7 @@ typedef struct _KHEAPBLOCKBM {
 	u32int					used;
 	u32int					bsize;
 	u32int					lfb;
-	unintptr					data;
+	uintptr					data;
 	u8int					*bm;
 } KHEAPBLOCKBM;
  
@@ -15,37 +15,37 @@ typedef struct _KHEAPBM {
 } KHEAPBM;
  
 void k_heapBMInit(KHEAPBM *heap);
-int k_heapBMAddBlock(KHEAPBM *heap, unintptr addr, u32int size, u32int bsize);
-int k_heapBMAddBlockEx(KHEAPBM *heap, unintptr addr, u32int size, u32int bsize, KHEAPBLOCKBM *b, u8int *bm, u8int isBMInside);
+int k_heapBMAddBlock(KHEAPBM *heap, uintptr addr, u32int size, u32int bsize);
+int k_heapBMAddBlockEx(KHEAPBM *heap, uintptr addr, u32int size, u32int bsize, KHEAPBLOCKBM *b, u8int *bm, u8int isBMInside);
 void *k_heapBMAlloc(KHEAPBM *heap, u32int size);
 void k_heapBMFree(KHEAPBM *heap, void *ptr);
-unintptr k_heapBMGetBMSize(unintptr size, u32int bsize);
+uintptr k_heapBMGetBMSize(uintptr size, u32int bsize);
 void *k_heapBMAllocBound(KHEAPBM *heap, u32int size, u32int mask);
-void k_heapBMSet(KHEAPBM *heap, unintptr ptr, unintptr size, u8int rval);
+void k_heapBMSet(KHEAPBM *heap, uintptr ptr, uintptr size, u8int rval);
  
 void k_heapBMInit(KHEAPBM *heap) {
 	heap->fblock = 0;
 }
  
-int k_heapBMAddBlock(KHEAPBM *heap, unintptr addr, u32int size, u32int bsize) {
+int k_heapBMAddBlock(KHEAPBM *heap, uintptr addr, u32int size, u32int bsize) {
 	KHEAPBLOCKBM			*b;
-	unintptr					bmsz;
+	uintptr					bmsz;
 	u8int					*bm;
  
 	b = (KHEAPBLOCKBM*)addr;
 	bmsz = k_heapBMGetBMSize(size, bsize);
-	bm = (uint8*)(addr + sizeof(KHEAPBLOCKBM));
+	bm = (u8int*)(addr + sizeof(KHEAPBLOCKBM));
 	/* important to set isBMInside... (last argument) */
 	return k_heapBMAddBlockEx(heap, addr + sizeof(KHEAPBLOCKBM), size - sizeof(KHEAPBLOCKBM), bsize, b, bm, 1);
 }
  
-uintptr k_heapBMGetBMSize(uintptr size, uint32 bsize) {
+uintptr k_heapBMGetBMSize(uintptr size, u32int bsize) {
 	return size / bsize;
 }
  
-int k_heapBMAddBlockEx(KHEAPBM *heap, uintptr addr, uint32 size, uint32 bsize, KHEAPBLOCKBM *b, uint8 *bm, uint8 isBMInside) {
-	uint32				bcnt;
-	uint32				x;
+int k_heapBMAddBlockEx(KHEAPBM *heap, uintptr addr, u32int size, u32int bsize, KHEAPBLOCKBM *b, u8int *bm, u8int isBMInside) {
+	u32int				bcnt;
+	u32int				x;
  
 	b->size = size;
 	b->bsize = bsize;
@@ -79,24 +79,24 @@ int k_heapBMAddBlockEx(KHEAPBM *heap, uintptr addr, uint32 size, uint32 bsize, K
 	return 1;
 }
  
-static uint8 k_heapBMGetNID(uint8 a, uint8 b) {
-	uint8		c;	
+static u8int k_heapBMGetNID(u8int a, u8int b) {
+	u8int		c;	
 	for (c = a + 1; c == b || c == 0; ++c);
 	return c;
 }
  
-void *k_heapBMAlloc(KHEAPBM *heap, uint32 size) {
+void *k_heapBMAlloc(KHEAPBM *heap, u32int size) {
 	return k_heapBMAllocBound(heap, size, 0);
 }
  
-void *k_heapBMAllocBound(KHEAPBM *heap, uint32 size, uint32 bound) {
+void *k_heapBMAllocBound(KHEAPBM *heap, u32int size, u32int bound) {
 	KHEAPBLOCKBM		*b;
-	uint8				*bm;
-	uint32				bcnt;
-	uint32				x, y, z;
-	uint32				bneed;
-	uint8				nid;
-	uint32				max;
+	u8int				*bm;
+	u32int				bcnt;
+	u32int				x, y, z;
+	u32int				bneed;
+	u32int				nid;
+	u32int				max;
  
 	bound = ~(~0 << bound);
 	/* iterate blocks */
@@ -105,7 +105,7 @@ void *k_heapBMAllocBound(KHEAPBM *heap, uint32 size, uint32 bound) {
 		if (b->size - (b->used * b->bsize) >= size) {
 			bcnt = b->size / b->bsize;		
 			bneed = (size / b->bsize) * b->bsize < size ? size / b->bsize + 1 : size / b->bsize;
-			bm = (uint8*)b->bm;
+			bm = (u8int*)b->bm;
  
 			for (x = (b->lfb + 1 >= bcnt ? 0 : b->lfb + 1); x != b->lfb; ++x) {
 				/* just wrap around */
@@ -152,13 +152,13 @@ void *k_heapBMAllocBound(KHEAPBM *heap, uint32 size, uint32 bound) {
 	return 0;
 }
  
-void k_heapBMSet(KHEAPBM *heap, uintptr ptr, uintptr size, uint8 rval) {
+void k_heapBMSet(KHEAPBM *heap, uintptr ptr, uintptr size, u8int rval) {
 	KHEAPBLOCKBM		*b;	
 	uintptr				ptroff, endoff;
-	uint32				bi, x, ei;
-	uint8				*bm;
-	uint8				id;
-	uint32				max;
+	u32int				bi, x, ei;
+	u8int				*bm;
+	u8int				id;
+	u32int				max;
  
 	for (b = heap->fblock; b; b = b->next) {
 		/* check if region effects block */
@@ -217,10 +217,10 @@ void k_heapBMSet(KHEAPBM *heap, uintptr ptr, uintptr size, uint8 rval) {
 void k_heapBMFree(KHEAPBM *heap, void *ptr) {
 	KHEAPBLOCKBM		*b;	
 	uintptr				ptroff;
-	uint32				bi, x;
-	uint8				*bm;
-	uint8				id;
-	uint32				max;
+	u32int				bi, x;
+	u8int				*bm;
+	u8int				id;
+	u32int				max;
  
 	for (b = heap->fblock; b; b = b->next) {
 		if ((uintptr)ptr > b->data && (uintptr)ptr < b->data + b->size) {
