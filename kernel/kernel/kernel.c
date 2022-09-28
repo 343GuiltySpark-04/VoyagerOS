@@ -61,6 +61,7 @@ extern void invalid_maigic_number();
 extern void invalid_mem_map();
 extern void paging_nominal();
 extern void IDT_loaded();
+extern void do_e820();
 //extern u32int endkernel;
 
 // ----- Structs -----
@@ -537,7 +538,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	if (!(mbd->flags >> 6 & 0x1))
 	{
 		// write_debug_code('0', '0', '6');
-		invalid_mem_map();
+		//invalid_mem_map();
 		abort();
 	}
 
@@ -572,7 +573,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 	is_A20_on();
 	disable_cursor();
-	init_idt();
+	//init_idt();
 	kb_init();
 	gp_init();
 	// paging();
@@ -591,6 +592,8 @@ void main(multiboot_info_t *mbd, u32int magic)
 
 		abort();
 	}
+
+	//do_e820();
 
 	// write_debug_code('x', 'x', 'x');
 

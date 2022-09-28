@@ -1,4 +1,7 @@
-mmap_ent equ 0x8000
+mmap_ent equ 0x8001
+
+global mmap_ent
+global do_e820
 
 do_e820:
     mov di, 0x8004

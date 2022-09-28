@@ -96,7 +96,7 @@ start:
 	push ebx
 	call is_A20_on
 	call init_idt
-	;call pmodeinit
+	call pmodeinit
 	call main
 	hlt
 
