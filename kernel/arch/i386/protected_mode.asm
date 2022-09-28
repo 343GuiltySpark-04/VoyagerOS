@@ -1,19 +1,18 @@
 [bits 32]
 
-section .data
+section .data align=4
 
 global gdt_end
 global gdt_desc
 extern main
-extern is_A20_on
 
-    align 4
+
 
 gdt_start:
 
 gdt_null:
-    dd 0x0
-    dd 0x0
+    dd 0
+    dd 0
 
 gdt_code:
     dw 0x0ffff
@@ -48,7 +47,7 @@ pmodeinit:
     mov eax,cr0
     or eax,0x1
     mov cr0,eax
-    jmp dword 0x8:start32
+    jmp dword 0x8:0x18
 
 start32:
     mov ax,0x10

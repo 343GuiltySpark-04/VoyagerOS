@@ -35,7 +35,6 @@
 #include <stdio.h>
 #include <kernel/tty.h>
 #include <stdlib.h>
-#include <kernel/prim_wait.h>
 #include <kernel/check_sti.h>
 #include <common.h>
 #include <kernel/serial_port_driver.h>
@@ -79,6 +78,21 @@ struct IDT_entry
 	unsigned short offset_upperbits; // 16 bits
 } __attribute__((packed));
 
+typedef struct
+{
+	uint16_t isr_low;	// The lower 16 bits of the ISR's address
+	uint16_t kernel_cs; // The GDT segment selector that the CPU will load into CS before calling the ISR
+	uint8_t reserved;	// Set to zero
+	uint8_t attributes; // Type and attributes; see the IDT page
+	uint16_t isr_high;	// The higher 16 bits of the ISR's address
+} __attribute__((packed)) idt_entry_t;
+
+typedef struct
+{
+	uint16_t limit;
+	uint32_t base;
+} __attribute__((packed)) idtr_t;
+
 // ----- Global variables -----
 struct IDT_entry IDT[IDT_SIZE]; // This is our entire IDT. Room for 256 interrupts
 int cursor_row = 0;
@@ -88,6 +102,9 @@ int command_len = 0;
 const int print_offset = 3;
 int nestexc = 0;
 
+__attribute__((aligned(0x10))) static idt_entry_t idt[256]; // Create an array of IDT entries; aligned for performance
+static idtr_t idtr;
+
 // unsigned long *page_directory = (unsigned long *)0x9C000;
 
 //------Global typedefs--------
@@ -96,10 +113,28 @@ int nestexc = 0;
 bool emg_halt = false;
 // ---------------
 
+__attribute__((noreturn)) void exception_handler(void);
+void exception_handler()
+{
+	__asm__ volatile("cli; hlt"); // Completely hangs the computer
+}
+
 void disable_cursor()
 {
 	ioport_out(0x3D4, 0x0A);
 	ioport_out(0x3D5, 0x20);
+}
+
+void idt_set_descriptor(uint8_t vector, void *isr, uint8_t flags);
+void idt_set_descriptor(uint8_t vector, void *isr, uint8_t flags)
+{
+	idt_entry_t *descriptor = &idt[vector];
+
+	descriptor->isr_low = (uint32_t)isr & 0xFFFF;
+	descriptor->kernel_cs = 0x08; // this value can be whatever offset your kernel code selector is in your GDT
+	descriptor->attributes = flags;
+	descriptor->isr_high = (uint32_t)isr >> 16;
+	descriptor->reserved = 0;
 }
 
 bool streq(char *string1, int str1len, char *string2, int str2len)
@@ -156,7 +191,7 @@ void init_idt()
 	// My guess: 0x0 to 0x2 are reserved for CPU, so we use the first avail
 	IDT[0x21].offset_lowerbits = offset & 0x0000FFFF; // lower 16 bits
 	IDT[0x21].selector = KERNEL_CODE_SEGMENT_OFFSET;
-	IDT[0x21].zero = 0;
+	IDT[0x21].zero = 1;
 	IDT[0x21].type_attr = IDT_INTERRUPT_GATE_32BIT;
 	IDT[0x21].offset_upperbits = (offset & 0xFFFF0000) >> 16;
 	// Program the PICs - Programmable Interrupt Controllers
@@ -217,8 +252,8 @@ void init_idt()
 	// IDT_loaded();
 }
 
-
-void interrupt_handler(void){
+void interrupt_handler(void)
+{
 	ioport_out(PIC1_COMMAND_PORT, 0x20);
 }
 
@@ -237,9 +272,6 @@ void gp_init()
 
 void catch_gp()
 {
-
-	print("KERNEL PANIC!: GENERAL PROTECTION EXCEPTION (TRIPLE FAULT) ABORT! ABORT!", 72);
-	emg_halt = true;
 }
 
 void breakpoint()
@@ -505,7 +537,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	if (!(mbd->flags >> 6 & 0x1))
 	{
 		// write_debug_code('0', '0', '6');
-		// invalid_mem_map();
+		 invalid_mem_map();
 		abort();
 	}
 
@@ -543,7 +575,7 @@ void main(multiboot_info_t *mbd, u32int magic)
 	init_idt();
 	kb_init();
 	// gp_init();
-	//paging();
+	// paging();
 	enable_interrupts();
 	// write_debug_code('0', '0', '4');
 	// interrupts_enabled();

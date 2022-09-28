@@ -56,15 +56,6 @@ keyboard_handler:
 	iretd
 
 
-gp_handler:
-	pushad
-	cld
-	call catch_gp
-
-
-
-
-
 ioport_in:
 	mov edx, [esp + 4] ; PORT_TO_READ, 16 bits
 	; dx is lower 16 bits of edx. al is lower 8 bits of eax
@@ -104,9 +95,9 @@ start:
 	push eax
 	push ebx
 	call is_A20_on
+	call init_idt
 	call pmodeinit
-	call load_idt
-	call main
+	;call main
 	hlt
 
 
