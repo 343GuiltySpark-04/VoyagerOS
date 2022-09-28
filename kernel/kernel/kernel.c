@@ -61,7 +61,7 @@ extern void invalid_maigic_number();
 extern void invalid_mem_map();
 extern void paging_nominal();
 extern void IDT_loaded();
-extern u32int endkernel;
+//extern u32int endkernel;
 
 // ----- Structs -----
 struct IDT_pointer
